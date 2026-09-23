@@ -10,7 +10,9 @@ function buildDeeplink(raw) {
   if (!trimmed) return null;
   // Don't double-prepend if the user already pasted a full deeplink.
   if (trimmed.toLowerCase().startsWith(SCHEME)) return trimmed;
-  return SCHEME + trimmed;
+  // The scheme replaces http(s):// rather than stacking on top of it:
+  // fb-viewapp://example.com, not fb-viewapp://https://example.com
+  return SCHEME + trimmed.replace(/^https?:\/\//i, "");
 }
 
 export default function Home() {
@@ -64,6 +66,7 @@ export default function Home() {
         <h1>fb-viewapp QR Generator</h1>
         <p className="subtitle">
           Paste a URL and get a QR code for <code>{SCHEME}</code> + your URL.
+          Any <code>https://</code> prefix is replaced by the scheme.
         </p>
 
         <form onSubmit={generate}>

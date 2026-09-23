@@ -4,8 +4,13 @@ A one-page site: paste a URL, hit the button, get a QR code image encoding
 `fb-viewapp://<your-url>` — the deeplink that opens a URL in the Facebook
 in-app browser.
 
-Scanning the code sends the device to `fb-viewapp://https://example.com/page`.
-If the pasted text already starts with `fb-viewapp://`, it is not prepended twice.
+The scheme *replaces* `http://` / `https://` rather than stacking on top of it:
+
+| Pasted | Encoded in the QR code |
+| --- | --- |
+| `https://example.com/page` | `fb-viewapp://example.com/page` |
+| `example.com/page` | `fb-viewapp://example.com/page` |
+| `fb-viewapp://example.com/page` | unchanged (no double prefix) |
 
 ## Local development
 
